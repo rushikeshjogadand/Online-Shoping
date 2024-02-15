@@ -62,106 +62,106 @@
                 })
         }
 
-        function LoadProducts(url) {
-            document.querySelector("main").innerHTML = "";
-            fetch(url)
-                .then(function (response) {
-                    return response.json()
-                })
-                .then(function (products) {
-                    products.map(function (product) {
-                        var div = document.createElement("div");
-                        div.className = "card m-2 p-2";
-                        div.id = "m3"
-                        div.innerHTML = `
-                       <img src=${product.image} class="card-img-top ps-3 pe-3" height="150">
-                       <div class="card-header"  style="height:110px; overflow:auto">
-                            ${product.title}
-                        </div>
-                            <dl>
-                                <dt>Price</dt>
-                                <dd>₹ ${product.price * 83}</dd>
-                                 <dt>Rating</dt>
-                                <dd>${product.rating.rate} <span class="bi bi-star-fill text-warning"></span> (${product.rating.count})</dd>
-                            </dl>
-                        </div>
-                        <div class="card-footer">
-                         <button  onclick="AddCard(${product.id})" class="btn btn-dark w-100">
-                            <span class="bi bi-cart4 text-danger">&nbsp; </span> Add to Cart
-                         </button>
-                       </div>
+        // function LoadProducts(url) {
+        //     document.querySelector("main").innerHTML = "";
+        //     fetch(url)
+        //         .then(function (response) {
+        //             return response.json()
+        //         })
+        //         .then(function (products) {
+        //             products.map(function (product) {
+        //                 var div = document.createElement("div");
+        //                 div.className = "card m-2 p-2";
+        //                 div.id = "m3"
+        //                 div.innerHTML = `
+        //                <img src=${product.image} class="card-img-top ps-3 pe-3" height="150">
+        //                <div class="card-header"  style="height:110px; overflow:auto">
+        //                     ${product.title}
+        //                 </div>
+        //                     <dl>
+        //                         <dt>Price</dt>
+        //                         <dd>₹ ${product.price * 83}</dd>
+        //                          <dt>Rating</dt>
+        //                         <dd>${product.rating.rate} <span class="bi bi-star-fill text-warning"></span> (${product.rating.count})</dd>
+        //                     </dl>
+        //                 </div>
+        //                 <div class="card-footer">
+        //                  <button  onclick="AddCard(${product.id})" class="btn btn-dark w-100">
+        //                     <span class="bi bi-cart4 text-danger">&nbsp; </span> Add to Cart
+        //                  </button>
+        //                </div>
                         
-                    `
-                        document.querySelector("main").appendChild(div);
-                    })
-                })
-        }
+        //             `
+        //                 document.querySelector("main").appendChild(div);
+        //             })
+        //         })
+        // }
 
-        function AddCard(id) {
-            fetch(`https://fakestoreapi.com/products/${id}`)
-                .then(function (response) {
-                    return response.json()
-                })
-                .then(function (product) {
-                    list.push(product);
-                    alert(`${product.title}\nAdded to Cart`)
-                    itemcount();
-                })
-        }
+        // function AddCard(id) {
+        //     fetch(`https://fakestoreapi.com/products/${id}`)
+        //         .then(function (response) {
+        //             return response.json()
+        //         })
+        //         .then(function (product) {
+        //             list.push(product);
+        //             alert(`${product.title}\nAdded to Cart`)
+        //             itemcount();
+        //         })
+        // }
 
-        var list = [];
+        // var list = [];
 
-        function itemcount() {
-            document.getElementById("lblCount").innerHTML = list.length;
-        }
+        // function itemcount() {
+        //     document.getElementById("lblCount").innerHTML = list.length;
+        // }
 
-        function ShowCartClick() {
-            var total = 0;
-            document.getElementById("cartBody").innerHTML = "";
+        // function ShowCartClick() {
+        //     var total = 0;
+        //     document.getElementById("cartBody").innerHTML = "";
 
-            list.map(function (item) {
-                document.getElementById('total').innerHTML = "";
+        //     list.map(function (item) {
+        //         document.getElementById('total').innerHTML = "";
 
-                var tr = document.createElement("tr");
-                var tdTitle = document.createElement("td");
-                var tdPrice = document.createElement("td");
-                var tdPreview = document.createElement("td");
-                var total1 = document.createElement("td");
+        //         var tr = document.createElement("tr");
+        //         var tdTitle = document.createElement("td");
+        //         var tdPrice = document.createElement("td");
+        //         var tdPreview = document.createElement("td");
+        //         var total1 = document.createElement("td");
 
-                total += parseInt(item.price * 83)
+        //         total += parseInt(item.price * 83)
 
-                tdTitle.innerHTML = item.title;
-                tdPrice.innerHTML = "₹" + parseInt(item.price * 83)
-
-
-
-                tdPreview.innerHTML = `<div class="d-flex">
-                                          <img src=${item.image} class="ms-3" width="50" height="50">
-                                          <span onclick="Remove(${item.title, item.image, item.price})" class="bi bi-trash3-fill ms-3 text-danger"></span>
-                                     </div>`;
+        //         tdTitle.innerHTML = item.title;
+        //         tdPrice.innerHTML = "₹" + parseInt(item.price * 83)
 
 
-                total1.innerHTML = `₹ ${total}`;
-                tr.appendChild(tdTitle);
-                tr.appendChild(tdPrice);
-                tr.appendChild(tdPreview);
-                document.getElementById("cartBody").appendChild(tr);
-                document.getElementById("total").appendChild(total1);
+
+        //         tdPreview.innerHTML = `<div class="d-flex">
+        //                                   <img src=${item.image} class="ms-3" width="50" height="50">
+        //                                   <span onclick="Remove(${item.title, item.image, item.price})" class="bi bi-trash3-fill ms-3 text-danger"></span>
+        //                              </div>`;
 
 
-            })
-        }
+        //         total1.innerHTML = `₹ ${total}`;
+        //         tr.appendChild(tdTitle);
+        //         tr.appendChild(tdPrice);
+        //         tr.appendChild(tdPreview);
+        //         document.getElementById("cartBody").appendChild(tr);
+        //         document.getElementById("total").appendChild(total1);
 
-        function Remove(title, image, price) {
-            var app = title, image, price;
-            var index = list.indexOf(app)
-            flag = confirm(`Are you sure you want to delet `)
-            if (flag == true) {
-                list.splice(index, 1)
-                ShowCartClick(document.getElementById("total").innerHTML = "00.00")
-                itemcount();
-            }
-        }
+
+        //     })
+        // }
+
+        // function Remove(title, image, price) {
+        //     var app = title, image, price;
+        //     var index = list.indexOf(app)
+        //     flag = confirm(`Are you sure you want to delet `)
+        //     if (flag == true) {
+        //         list.splice(index, 1)
+        //         ShowCartClick(document.getElementById("total").innerHTML = "00.00")
+        //         itemcount();
+        //     }
+        // }
 
         function bodyload() {
             Loadcategory();
@@ -199,9 +199,9 @@
                         <a class="nav-link text-light "
                             href="javascript:LoadProducts('https://fakestoreapi.com/products/category/jewelery')"><b>Jewelery</b></a>
                         <a class="nav-link text-light"
-                            href="javascript:LoadProducts('')"><b>Men's
+                            href="javascript:LoadProducts('https://fakestoreapi.com/products/category/men's clothing')"><b>Men's
                                 Fashion</b></a>
-                        <a class="nav-link text-light" href="javascript:LoadProducts('')"><b>Women's Fashion</b></a>
+                        <a class="nav-link text-light" href="javascript:LoadProducts('https://fakestoreapi.com/products/category/women's clothing')"><b>Women's Fashion</b></a>
                     </div>
                 </div>
                 <div class="fs-4 d-flex">
