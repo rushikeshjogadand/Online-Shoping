@@ -1,11 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" href="./public/images/logo1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <title>Fakestore API</title>
+    <style>
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        #m3 {
+            width: 230px;
+        }
+        @media only screen and (max-width: 600px) {
+
+            #m3 {
+                width: 280px;
+                margin: auto;
+
+
+            }
+
+            #nav1 {
+                width: 100%;
+                margin-bottom: 20px;
+                margin-left: 10px;
+            }
+
+            main {
+                width: 100%;
+            }
+        }
+    </style>
+
+
+    <script>
+        function Loadcategory() {
+            fetch("http://fakestoreapi.com/products/categories")
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (categories) {
+                    categories.unshift("all")
+                    categories.map(function (Category) {
+                        var option = document.createElement("option");
+                        option.value = Category;
+                        option.text = Category.toUpperCase();
+                        document.getElementById("lstCategories").appendChild(option);
+                    })
+
+
+                })
+        }
+
+        function LoadProducts(url) {
+            document.querySelector("main").innerHTML = "";
+            fetch(url)
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (products) {
+                    products.map(function (product) {
+                        var div = document.createElement("div");
+                        div.className = "card m-2 p-2";
+                        div.id = "m3"
+                        div.innerHTML = `
+                       <img src=${product.image} class="card-img-top ps-3 pe-3" height="150">
+                       <div class="card-header"  style="height:110px; overflow:auto">
+                            ${product.title}
+                        </div>
+                            <dl>
+                                <dt>Price</dt>
+                                <dd>₹ ${product.price * 83}</dd>
+                                 <dt>Rating</dt>
+                                <dd>${product.rating.rate} <span class="bi bi-star-fill text-warning"></span> (${product.rating.count})</dd>
+                            </dl>
+                        </div>
+                        <div class="card-footer">
+                         <button  onclick="AddCard(${product.id})" class="btn btn-dark w-100">
+                            <span class="bi bi-cart4 text-danger">&nbsp; </span> Add to Cart
+                         </button>
+                       </div>
+                        
+                    `
+                        document.querySelector("main").appendChild(div);
+                    })
+                })
+        }
+
+        function AddCard(id) {
+            fetch(`http://fakestoreapi.com/products/${id}`)
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (product) {
+                    list.push(product);
+                    alert(`${product.title}\nAdded to Cart`)
+                    itemcount();
+                })
+        }
+
+        var list = [];
+
+        function itemcount() {
+            document.getElementById("lblCount").innerHTML = list.length;
+        }
+
+        function ShowCartClick() {
+            var total = 0;
+            document.getElementById("cartBody").innerHTML = "";
+
+            list.map(function (item) {
+                document.getElementById('total').innerHTML = "";
+
+                var tr = document.createElement("tr");
+                var tdTitle = document.createElement("td");
+                var tdPrice = document.createElement("td");
+                var tdPreview = document.createElement("td");
+                var total1 = document.createElement("td");
+
+                total += parseInt(item.price * 83)
+
+                tdTitle.innerHTML = item.title;
+                tdPrice.innerHTML = "₹" + parseInt(item.price * 83)
+
+
+
+                tdPreview.innerHTML = `<div class="d-flex">
+                                          <img src=${item.image} class="ms-3" width="50" height="50">
+                                          <span onclick="Remove(${item.title, item.image, item.price})" class="bi bi-trash3-fill ms-3 text-danger"></span>
+                                     </div>`;
+
+
+                total1.innerHTML = `₹ ${total}`;
+                tr.appendChild(tdTitle);
+                tr.appendChild(tdPrice);
+                tr.appendChild(tdPreview);
+                document.getElementById("cartBody").appendChild(tr);
+                document.getElementById("total").appendChild(total1);
+
+
+            })
+        }
+
+        function Remove(title, image, price) {
+            var app = title, image, price;
+            var index = list.indexOf(app)
+            flag = confirm(`Are you sure you want to delet `)
+            if (flag == true) {
+                list.splice(index, 1)
+                ShowCartClick(document.getElementById("total").innerHTML = "00.00")
+                itemcount();
+            }
+        }
+
+        function bodyload() {
+            Loadcategory();
+            LoadProducts("https://fakestoreapi.com/products");
+            itemcount();
+        }
+
+        function CategoryChanged() {
+            var categoryName = document.getElementById("lstCategories").value;
+            if (categoryName === "all") {
+                LoadProducts("https://fakestoreapi.com/products");
+            }
+            else {
+                LoadProducts(`https://fakestoreapi.com/products/category/${categoryName}`);
+            }
+        }
+    </script>
+
+
 </head>
-<body>
-    <h1>hello</h1>
-</body>
+
+<body onload="bodyload()">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-black ">
+            <div class="container-fluid">
+                <a class="navbar-brand text-light fs-2 ms-2" href="#"><b>Fakestore</b></a>
+
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav ms-5 ">
+                        <a class="nav-link text-light active"  aria-current="page"
+                            href="javascript:LoadProducts('https://fakestoreapi.com/products')"><b>Home</b></a>
+
+                        <a class="nav-link text-light " 
+                            href="javascript:LoadProducts('https://fakestoreapi.com/products/category/electronics')"><b>Electronics</b></a>
+                        <a class="nav-link text-light "
+                            href="javascript:LoadProducts('https://fakestoreapi.com/products/category/jewelery')"><b>Jewelery</b></a>
+                        <a class="nav-link text-light"
+                            href="javascript:LoadProducts('https://fakestoreapi.com/products/category/men's clothing')"><b>Men's
+                                Fashion</b></a>
+                        <a class="nav-link text-light" href="javascript:LoadProducts('https://fakestoreapi.com/products/category/women's clothing')"><b>Women's Fashion</b></a>
+                    </div>
+                </div>
+                <div class="fs-4 d-flex">
+                    <button data-bs-target="#cart" data-bs-toggle="modal" onclick="ShowCartClick()"
+                        class="btn position-relative btn-warning"> <span class=" bi bi-cart-check-fill text-success fw-bolder"></span> Your Cart <span id="lblCount" class="badge rounded rounded-circle bg-danger text-white position-absolute"></span>
+                    </button>
+                    <div class="modal fade  " id="cart">
+                        <div class="modal-dialog" id="modal">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="text-warning">Your Cart</h2>
+                                    <button class="btn btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Price</th>
+                                                <th>Preview</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cartBody">
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <div class="card-footer text-dark d-flex ms-3 me-4 "
+                                    style="justify-content: space-between;">
+                                    <h3>Total Price</h3>
+                                    <h3 id="total">00.00</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button class="navbar-toggler  bg-light" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon "></span>
+                </button>
+
+            </div>
+        </nav>
+
+
+
+
+    </header>
+
+
+    <marquee class="bg-dark text-white p-2 mt-0">
+        <span class="bi bi-lightning-fill text-warning"></span>
+        <span>HOLIDAY DEALS 50% OFF - LIMITED OFFER</span>
+        <span class="bi bi-lightning-fill text-warning"></span>
+    </marquee>
+
+    <section class="mt-3 row">
+        <nav class="col-2" id="nav1">
+            <div>
+                <label class="form-label fw-bold">Select Category</label>
+                <div>
+                    <select class="form-select" onchange="CategoryChanged()" id="lstCategories"></select>
+                </div>
+            </div>
+        </nav>
+        <main class="col-10 d-flex flex-wrap" style="height: 450px; overflow: auto">
+
+        </main>
+
+    </section>
+
 </html>
