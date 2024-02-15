@@ -86,13 +86,13 @@
                         div.innerHTML = `
                        <img src=${product.image} class="card-img-top ps-3 pe-3" height="150">
                        <div class="card-header"  style="height:110px; overflow:auto">
-                            ${product.title}
+                           <b> ${product.title}</b>
                         </div>
                             <dl>
                                 <dt>Price</dt>
-                                <dd>₹ ${product.price * 83}</dd>
+                                <dd> ${ (product.price * 83) .toLocaleString ('en-in',{style:'currency',currency:'INR'}) }</dd>
                                  <dt>Rating</dt>
-                                <dd>${product.rating.rate} <span class="bi bi-star-fill text-warning"></span> (${product.rating.count})</dd>
+                                <dd>${product.rating.rate} <span class="bi bi-star-fill text-warning"></span> ${product.rating.count} Review </dd>
                             </dl>
                         </div>
                         <div class="card-footer">
@@ -162,7 +162,7 @@
             })
         }
 
-        function Remove(title, image, price) {
+        function Remove(title) {
             var app = title, image, price;
             var index = list.indexOf(app)
             flag = confirm(`Are you sure you want to delet `)
