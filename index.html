@@ -17,11 +17,20 @@
         #m3 {
             width: 230px;
         }
-        .navbar-nav a{
-            color: rgb(13, 139, 139);
-            font-size: 20px;
+        .navbar-brand {
+            color: orangered;
+            font-size: 30px;
+            font-weight: bolder;
         }
-        .navbar-nav a:hover{
+        .navbar-brand:hover{
+            color: orangered;
+        }
+        #navbarNavAltMarkup a{
+            color: rgb(14, 219, 219);
+            font-size: 20px;
+            transition: all 0.4s ease-in-out;
+        }
+        #navbarNavAltMarkup a:hover{
             color: #fff;
         }
         @media only screen and (max-width: 600px) {
@@ -188,11 +197,11 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-black ">
             <div class="container-fluid">
-                <a class="navbar-brand text-success fs-2 ms-2 "><b>Shoping </b></a>
+                <a class="navbar-brand   ms-2 "><b>Shoping </b></a>
 
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-5 ">
-                        <a class="nav-link  active"  aria-current="page"
+                        <a class="nav-link  "  aria-current="page"
                             href="javascript:LoadProducts('https://fakestoreapi.com/products')"><b>Home</b></a>
 
                         <a class="nav-link  " 
