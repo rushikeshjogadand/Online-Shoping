@@ -45,7 +45,7 @@
 
     <script>
         function Loadcategory() {
-            fetch("https://fakestoreapi.com/products/categories")
+            fetch("http://fakestoreapi.com/products/categories")
                 .then(function (response) {
                     return response.json()
                 })
@@ -98,7 +98,7 @@
         }
 
         function AddCard(id) {
-            fetch(`https://fakestoreapi.com/products/${id}`)
+            fetch(`http://fakestoreapi.com/products/${id}`)
                 .then(function (response) {
                     return response.json()
                 })
@@ -165,7 +165,7 @@
 
         function bodyload() {
             Loadcategory();
-            LoadProducts("http://fakestoreapi.com/products");
+            LoadProducts("https://fakestoreapi.com/products");
             itemcount();
         }
 
