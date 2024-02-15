@@ -45,7 +45,7 @@
 
     <script>
         function Loadcategory() {
-            fetch("http://fakestoreapi.com/products/categories")
+            fetch("https://fakestoreapi.com/products/categories")
                 .then(function (response) {
                     return response.json()
                 })
@@ -97,17 +97,17 @@
                 })
         }
 
-        // function AddCard(id) {
-        //     fetch(`http://fakestoreapi.com/products/${id}`)
-        //         .then(function (response) {
-        //             return response.json()
-        //         })
-        //         .then(function (product) {
-        //             list.push(product);
-        //             alert(`${product.title}\nAdded to Cart`)
-        //             itemcount();
-        //         })
-        // }
+        function AddCard(id) {
+            fetch(`https://fakestoreapi.com/products/${id}`)
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (product) {
+                    list.push(product);
+                    alert(`${product.title}\nAdded to Cart`)
+                    itemcount();
+                })
+        }
 
         var list = [];
 
